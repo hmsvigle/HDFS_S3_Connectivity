@@ -56,12 +56,12 @@ vi Core-site.xml
 
 <property>
   <name>fs.s3a.access.key</name>
-  <value>AKIAIZJPVZI2MZT7YV5A</value>
+  <value>********************</value>
   <description>AWS access key ID. Omit for Role-based authentication.</description>
 </property>
 <property>
   <name>fs.s3a.secret.key</name>
-  <value>CmySCwqWEmgBUP7pr2gOPUd0jLqsPyZPNmt1HcCQ</value>
+  <value>********************</value>
   <description>AWS secret key. Omit for Role-based authentication.</description>
 </property>
 
