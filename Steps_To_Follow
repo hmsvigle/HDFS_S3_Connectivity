@@ -1,0 +1,300 @@
+# Steps to Connect HDFS to S3
+#1. Install Java
+#2. Setup Apache Hadoop
+#3. update .bashrc file set the PATH & Home page for all required components.
+vi /home/root/.bashrc
+  export HIVE_HOME=/etc/apache-hive-3.1.1-bin
+  export PATH=$PATH:$HIVE_HOME/bin
+  export PATH=$PATH:$HADOOP_HOME/bin
+  export PATH=$PATH:/usr/local/bin
+  export PATH=$PATH:$HIVE_HOME/bin
+  export HADOOP_HOME=/etc/hadoop-2.6.5
+  export PATH=$PATH:$HADOOP_HOME/bin
+  export JAVA_HOME=/usr/java/default
+  export PATH=$PATH:$JAVA_HOME/bin
+  export PATH=$PATH:/etc/hadoop-2.6.5/sbin
+
+# 4. Update core-site.xml & hdfs-site.xml with S3 details.
+vi hdfs-site.xml
+````````````````
+<configuration>
+  <property>
+      <name>fs.defaultFS</name>
+      <value>hdfs://localhost:8020</value>
+      <final>true</final>
+  </property>
+  <property>
+      <name>dfs.replication</name>
+      <value>1</value>
+  </property>
+<property>
+      <name>dfs.permission</name>
+      <value>false</value>
+</property>
+
+<property>
+    <name>fs.s3a.access.key</name>
+    <value>*****</value> # Get it from S3.
+    <description>AWS access key ID. Omit for Role-based authentication.</description>
+</property>
+
+<property>
+    <name>fs.s3a.secret.key</name>
+    <value>*****</value> # Get it from S3
+    <description>AWS secret key. Omit for Role-based authentication.</description>
+</property>
+
+============================================================================================
+vi Core-site.xml
+````````````````
+<configuration>
+
+<property>
+<name>fs.s3a.impl</name>
+<value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+</property>
+
+<property>
+  <name>fs.s3a.access.key</name>
+  <value>AKIAIZJPVZI2MZT7YV5A</value>
+  <description>AWS access key ID. Omit for Role-based authentication.</description>
+</property>
+<property>
+  <name>fs.s3a.secret.key</name>
+  <value>CmySCwqWEmgBUP7pr2gOPUd0jLqsPyZPNmt1HcCQ</value>
+  <description>AWS secret key. Omit for Role-based authentication.</description>
+</property>
+
+<property>
+<name>fs.s3a.endpoint</name>
+<value>s3.us-west-1.amazonaws.com</value>
+</property>
+
+<property>
+      <name>fs.AbstractFileSystem.s3a.impl</name>
+      <value>org.apache.hadoop.fs.s3a.S3A</value>
+    </property>
+    
+    <property>
+      <name>fs.azure.user.agent.prefix</name>
+      <value>User-Agent: APN/1.0 Hortonworks/1.0 HDP/None</value>
+    </property>
+    
+    <property>
+      <name>fs.defaultFS</name>
+      <value>hdfs://localhost:8020</value>
+      <final>true</final>
+    </property>
+    
+    
+    <property>
+      <name>fs.s3a.attempts.maximum</name>
+      <value>20</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.block.size</name>
+      <value>64M</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.bucket.hadoopsa.aws.credentials.provider</name>
+      <value>org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.buffer.dir</name>
+      <value>/mnt/hadoop/s3a</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.connection.establish.timeout</name>
+      <value>5000</value>
+    </property>
+    
+        <property>
+      <name>fs.s3a.connection.timeout</name>
+      <value>200000</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.etag.checksum</name>
+      <value>true</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.fast.upload</name>
+      <value>true</value>
+    </property>
+
+    <property>
+      <name>fs.s3a.max.total.tasks</name>
+      <value>5</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.multiobjectdelete.enable</name>
+      <value>true</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.multipart.threshold</name>
+      <value>2147483647</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.paging.maximum</name>
+      <value>5000</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.path.style.access</name>
+      <value>false</value>
+    </property>
+    
+        <property>
+      <name>fs.s3a.readahead.range</name>
+      <value>64K</value>
+    </property>
+        
+    <property>
+      <name>fs.s3a.socket.recv.buffer</name>
+      <value>8192</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.socket.send.buffer</name>
+      <value>8192</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.threads.keepalivetime</name>
+      <value>60</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.threads.max</name>
+      <value>10</value>
+    </property>
+    
+    <property>
+      <name>fs.s3a.user.agent.prefix</name>
+      <value>User-Agent: APN/1.0 Hortonworks/1.0 HDP/None</value>
+    </property>
+    
+    <property>
+      <name>fs.trash.interval</name>
+      <value>360</value>
+    </property>
+    
+    <property>
+      <name>ha.failover-controller.active-standby-elector.zk.op.retries</name>
+      <value>120</value>
+    </property>
+    
+    <property>
+      <name>hadoop.custom-extensions.root</name>
+      <value>/hdp/ext/2.6/hadoop</value>
+    </property>
+    
+    <property>
+       <name>hadoop.http.authentication.simple.anonymous.allowed</name>
+      <value>true</value>
+    </property>
+    
+    <property>
+      <name>hadoop.proxyuser.*</name>
+      <value>*</value>
+    </property>
+    
+    <property>
+      <name>hadoop.proxyuser.hdfs.groups</name>
+      <value>*</value>
+    </property>
+    
+    <property>
+      <name>hadoop.proxyuser.hdfs.hosts</name>
+      <value>*</value>
+    </property>
+    
+    <property>
+      <name>hadoop.proxyuser.root.groups</name>
+      <value>*</value>
+    </property>
+    
+    <property>
+      <name>hadoop.proxyuser.root.hosts</name>
+      <value>hemant-insb.c.ccp-testenv.internal</value>
+    </property>
+    
+    <property>
+      <name>hadoop.security.auth_to_local</name>
+      <value>DEFAULT</value>
+    </property>
+    
+    <property>
+      <name>hadoop.security.authentication</name>
+      <value>simple</value>
+    </property>
+
+    <property>
+       <name>hadoop.security.authorization</name>
+        <value>false</value>
+    </property>
+    
+    <property>
+      <name>io.compression.codecs</name>
+      <value>org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+    
+    <property>
+      <name>io.file.buffer.size</name>
+      <value>131072</value>
+    </property>
+    
+    <property>
+      <name>io.serializations</name>
+      <value>org.apache.hadoop.io.serializer.WritableSerialization</value>
+    </property>
+    
+    <property>
+      <name>ipc.client.connect.max.retries</name>
+      <value>50</value>
+    </property>
+    
+    <property>
+      <name>ipc.client.connection.maxidletime</name>
+      <value>30000</value>
+    </property>
+    
+    <property>
+      <name>ipc.client.idlethreshold</name>
+      <value>8000</value>
+    </property>
+    
+    <property>
+      <name>ipc.server.tcpnodelay</name>
+      <value>true</value>
+    </property>
+    
+     <property>
+      <name>mapreduce.jobtracker.webinterface.trusted</name>
+      <value>false</value>
+    </property>
+   
+    <property>
+      <name>net.topology.script.file.name</name>
+      <value>/etc/hadoop/conf/topology_script.py</value>
+    </property>
+    
+#5. Test connectity
+
+- Format namenode
+hdfs namenode -format [-clusterId <lusterID>]
+
+./hadoop_daemon.sh start namenode
+./hadoop_daemon.sh start datanode
+
+
+
+
