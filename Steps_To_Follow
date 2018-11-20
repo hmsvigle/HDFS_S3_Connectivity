@@ -287,7 +287,7 @@ vi Core-site.xml
       <value>/etc/hadoop/conf/topology_script.py</value>
     </property>
     
-#5. Test connectity
+#5. Start Namenode & Datanode
 
 - Format namenode
 hdfs namenode -format [-clusterId <lusterID>]
@@ -295,6 +295,11 @@ hdfs namenode -format [-clusterId <lusterID>]
 ./hadoop_daemon.sh start namenode
 ./hadoop_daemon.sh start datanode
 
+#6. Test Connectivity
+
+hdfs dfs -mkdir s3a://<bucketname>/Test
+hdfs dfs -ls s3a://<bucketname>/
+- You can see the output.
 
 
 
